@@ -7,7 +7,7 @@ package main;
 
 /**
  *
- * @author yoh_a_000
+ * @author Lionel CONTOZ
  */
 public class JavaProjetMememoire {
 

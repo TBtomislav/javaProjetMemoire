@@ -9,6 +9,6 @@ package main;
  *
  * @author Lionel CONTOZ
  */
-public class Personne {
+public class Evaluation {
     
 }
