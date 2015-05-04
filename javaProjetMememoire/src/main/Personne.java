@@ -18,12 +18,15 @@ public abstract class Personne implements Comparable<Personne>{
     protected String nom;
     protected String prenom;
     protected String mail; 
-    
+    //retour chariot
+    String Newligne=System.getProperty("line.separator"); 
     
     // corps 
     public Personne(String nom,String prenom,String mail){
-        
+                
         if(isEmailAdress(mail)) {
+            
+           
             System.out.println("Email valide");
             this.mail=mail;
 
@@ -70,21 +73,24 @@ public abstract class Personne implements Comparable<Personne>{
                 "Mail: " + mail + "\n";
     }
     
-    //fonctions
-    public static boolean isEmailAdress(String email){
-        Pattern p = Pattern.compile(" ^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$ ");
-        Matcher m = p.matcher(email.toUpperCase());
+    public boolean isEmailAdress(String email){
+        Pattern p=Pattern.compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
+        
+        Matcher m=p.matcher(email);
+        
+        
         return m.matches();
     }
-    
+
     public static boolean isNameSurname(String name){
-        Pattern p = Pattern.compile(" ^[A-Z] ");
+        Pattern p = Pattern.compile("^[A-Z]*");
         Matcher m = p.matcher(name.toUpperCase());
         return m.matches();
     }
     
     
     //tri
+    
     @Override
     public boolean equals(Object e){
         return (nom.equals(((Personne)e).getNom()));
