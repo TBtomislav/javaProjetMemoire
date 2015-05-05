@@ -5,17 +5,42 @@
  */
 package main;
 
+import java.io.*;
+
 /**
  *
  * @author berriau
  */
-public class Fmain extends javax.swing.JFrame {
+public class Fmain extends javax.swing.JFrame implements Serializable{
 
     /**
      * Creates new form Fmain
      */
-    public Fmain() {
+    public Fmain() throws Exception{
         initComponents();
+        System.out.println("coucou");
+        Etudiant e=null;
+        
+        try{
+        File fichier =  new File("BDD/etu.ser") ;
+        FileInputStream fis = new FileInputStream(fichier);
+        // ouverture d'un flux sur un fichier
+        ObjectInputStream ois =  new ObjectInputStream(fis) ;
+        // sérialization de l'objet
+            try{
+                e=(Etudiant) ois.readObject();
+            }catch(IOException ioe) {
+                ioe.printStackTrace();
+            } finally {	
+                 System.out.println(e);
+                 ois.close();
+                 System.out.println("Fichier fermé");
+             }
+            
+        }catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
+            
     }
 
     /**
@@ -56,7 +81,7 @@ public class Fmain extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws Exception{
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -84,8 +109,11 @@ public class Fmain extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Fmain().setVisible(true);
+                
             }
         });
+        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

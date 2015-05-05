@@ -5,13 +5,15 @@
  */
 package main;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Lionel CONTOZ
  */
-public class Etudiant extends Personne{
+public class Etudiant extends Personne implements Serializable {
     int numEtudiant;
-    
+    private  static  final  long serialVersionUID =  1L;
     public Etudiant(String nom,String prenom,String mail,int numE){
         super(nom,prenom,mail);
         this.numEtudiant=numE;

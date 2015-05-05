@@ -6,13 +6,14 @@
 package main;
 
 
+import java.io.Serializable;
 import java.util.regex.*;
 
 /**
  *
  * @author Lionel CONTOZ
  */
-public abstract class Personne implements Comparable<Personne>{
+public abstract class Personne implements Comparable<Personne>, Serializable {
     
     // variables
     protected String nom;

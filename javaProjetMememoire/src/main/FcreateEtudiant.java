@@ -5,14 +5,12 @@
  */
 package main;
 
-import org.jdom2.*;
-import org.jdom2.output.*;
-
+import java.io.*;
 /**
  *
  * @author berriau
  */
-public class FcreateEtudiant extends javax.swing.JFrame {
+public class FcreateEtudiant extends javax.swing.JFrame implements Serializable {
 
     /**
      * Creates new form createPersonne
@@ -156,8 +154,27 @@ public class FcreateEtudiant extends javax.swing.JFrame {
        
        Etudiant e=new Etudiant(nom,prenom,mail,numE);
        
-        System.out.println("Bienvenu "+e.getPrenom()+" "+e.getNom());
-        
+       System.out.println("Bienvenu "+e.getPrenom()+" "+e.getNom());
+       
+       try{
+        /*serialise*/
+        File fichier =  new File("BDD/etu.txt") ;
+
+        // ouverture d'un flux sur un fichier
+        ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(fichier)) ;
+
+        // sérialization de l'objet
+       try{
+           oos.writeObject(e) ;
+       } finally {		
+            oos.close();
+            System.out.println("Fichier fermé");
+        }
+       }catch(IOException ioe) {
+	ioe.printStackTrace();
+        }
+     
+       
         this.dispose();
         new Fmain().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
