@@ -11,4 +11,18 @@ package main;
  */
 public class Memoire {
     
+    protected Integer annee;
+    
+    public Memoire(Integer annee){
+        this.annee = annee;
+    }
+    
+    public Integer getAnnee(){ return annee; }
+    public void setAnnee(Integer annee){ this.annee = annee; }
+    
+    
+    @Override
+    public String toString(){
+        return "Année: " + annee + "\n";
+    }
 }
