@@ -9,6 +9,15 @@ package main;
  *
  * @author Lionel CONTOZ
  */
-public class Responsable {
+public class Responsable extends Personne{
+    String entreprise;
     
+    public Responsable(String nom,String prenom,String mail,String entrepise){
+        super(nom,prenom,mail);
+        this.entreprise=entreprise;
+    }
+    
+    public String getEntrprise(){
+        return this.entreprise;
+    }
 }

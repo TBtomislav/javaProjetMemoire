@@ -9,6 +9,8 @@ package main;
  *
  * @author Lionel CONTOZ
  */
-public class Enseignant {
-    
+public class Enseignant extends Personne{
+    public Enseignant(String nom,String prenom,String mail){
+        super(nom,prenom,mail);
+    } 
 }
