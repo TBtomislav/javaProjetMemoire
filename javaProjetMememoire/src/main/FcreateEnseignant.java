@@ -5,6 +5,9 @@
  */
 package main;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author berriau
@@ -133,7 +136,11 @@ public class FcreateEnseignant extends javax.swing.JFrame {
         System.out.println("Bienvenu "+e.getPrenom()+" "+e.getNom());
         
         this.dispose();
-        new Fmain().setVisible(true);
+        try {
+            new Fmain().setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FcreateEnseignant.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

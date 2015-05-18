@@ -6,6 +6,17 @@
 package main;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jxl.*;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 /**
  *
  * @author berriau
@@ -155,9 +166,9 @@ public class FcreateEtudiant extends javax.swing.JFrame implements Serializable 
        Etudiant e=new Etudiant(nom,prenom,mail,numE);
        
        System.out.println("Bienvenu "+e.getPrenom()+" "+e.getNom());
-       
+       /*
        try{
-        /*serialise*/
+        //serialise
         File fichier =  new File("BDD/etu.txt") ;
 
         // ouverture d'un flux sur un fichier
@@ -173,10 +184,86 @@ public class FcreateEtudiant extends javax.swing.JFrame implements Serializable 
        }catch(IOException ioe) {
 	ioe.printStackTrace();
         }
-     
+       */
+       WritableWorkbook workbook = null;
+       Workbook wSourceEtu = null;
+       File fSourceEtu=new File("BDD/etu.xls");
+
        
+        try {
+                /* On créé un nouveau worbook et on l'ouvre en écriture */
+                
+                wSourceEtu = Workbook.getWorkbook(fSourceEtu);
+                
+                System.out.println("Le fichier excel a été chargé /");
+                
+                
+                workbook.copy(wSourceEtu);
+                
+                
+                
+                
+                /* Creation d'un champ au format numerique */
+                /*Number number = new Number(0, 1, 3.1459);
+                sheet.addCell(number); 
+                */
+                 
+
+        } 
+        catch (IOException exp) {
+            System.out.println("Le fichier excel abscent du dossier, création d'un fichier de stockage Etudiant");
+           try {
+               workbook = Workbook.createWorkbook(fSourceEtu);
+               
+               /* On créé une nouvelle feuille (test en position 0) et on l'ouvre en écriture */
+                WritableSheet sheet = workbook.createSheet("test", 0); 
+
+                /* Creation de l'en-tête*/
+                Label lNom = new Label(0, 0, "Nom");
+                sheet.addCell(lNom);
+                
+                Label lPrenom = new Label(1, 0, "Prénom");
+                sheet.addCell(lPrenom);
+                
+                Label lMail = new Label(2, 0, "Mail");
+                sheet.addCell(lMail);
+                
+                Label lNumE = new Label(3, 0, "NumEtu");
+                sheet.addCell(lNumE);
+               
+               /* Creatation du premier étudiant */ 
+                
+                
+                /* On ecrit le classeur */
+                workbook.write();
+                
+                
+               //message d'erreur de base
+               //exp.printStackTrace();
+           } catch (IOException | WriteException ex) {
+               Logger.getLogger(FcreateEtudiant.class.getName()).log(Level.SEVERE, null, ex);
+           }
+        }  catch (BiffException ex) {
+            Logger.getLogger(FcreateEtudiant.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+                if(workbook!=null){
+                        /* On ferme le worbook pour libérer la mémoire */
+                        try {
+                                workbook.close();
+                        } 
+                        catch (WriteException | IOException exp) {
+                            System.out.println("Erreur Workbook");
+                        } 
+                }
+        }
+        
         this.dispose();
-        new Fmain().setVisible(true);
+        try {
+            new Fmain().setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FcreateEtudiant.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed

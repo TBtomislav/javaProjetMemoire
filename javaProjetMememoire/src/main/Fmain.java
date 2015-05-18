@@ -22,7 +22,7 @@ public class Fmain extends javax.swing.JFrame implements Serializable{
         initComponents();
         System.out.println("coucou boby");
         Etudiant e=null;
-        
+        /*
         try{
         File fichier =  new File("BDD/etu.txt") ;
         FileInputStream fis = new FileInputStream(fichier);
@@ -42,7 +42,7 @@ public class Fmain extends javax.swing.JFrame implements Serializable{
         }catch(IOException ioe) {
             ioe.printStackTrace();
         }
-            
+          */  
     }
 
     /**

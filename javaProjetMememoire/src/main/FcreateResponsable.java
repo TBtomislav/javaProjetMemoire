@@ -5,6 +5,9 @@
  */
 package main;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author berriau
@@ -153,7 +156,11 @@ public class FcreateResponsable extends javax.swing.JFrame {
         System.out.println("Bienvenu "+r.getPrenom()+" "+r.getNom());
         
         this.dispose();
-        new Fmain().setVisible(true);
+        try {
+            new Fmain().setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FcreateResponsable.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
