@@ -1,25 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
 /**
- *
- * @author Lionel CONTOZ
+ * @author Thomas BERRIAU & Lionel CONTOZ
  */
-public class Memoire {
+public abstract class Memoire extends Document{
     
-    protected Integer annee;
+    //Variables
+    protected int annee;
     
-    public Memoire(Integer annee){
+    //Corps
+    public Memoire(String nom, String type, double taille, int annee){
+        super(nom, type, taille);
         this.annee = annee;
     }
     
-    public Integer getAnnee(){ return annee; }
-    public void setAnnee(Integer annee){ this.annee = annee; }
-    
+    //Accesseurs
+    public int getAnnee(){ return annee; }
+    public void setAnnee(int annee){ this.annee = annee; }
     
     @Override
     public String toString(){

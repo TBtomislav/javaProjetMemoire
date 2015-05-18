@@ -1,14 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
-/**
- *
- * @author Lionel CONTOZ
+/*
+ * @author Thomas BERRIAU & Lionel CONTOZ
  */
 public class Groupe {
+    //Variables
+    protected int identifiant;
     
+    //Corps
+    public Groupe(int identifiant){
+        this.identifiant = identifiant;
+    }
+    
+    //Accesseurs
+    public int getIdentifiant(){ return identifiant;}
+    public void setIdentifiant(int identifiant){ this.identifiant = identifiant; }
+    
+    @Override
+    public String toString(){
+        return "Groupe numéro: " + identifiant + "\n";
+    }
 }

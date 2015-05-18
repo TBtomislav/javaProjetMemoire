@@ -1,28 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 import java.util.*;
 
-
 /**
- *
- * @author Lionel CONTOZ
+ * @author Thomas BERRIAU & Lionel CONTOZ
  */
-public class Rapport {
-  
-    protected String nom;
+public abstract class Rapport extends Document{
+    //Variables
+    protected String sujet;
     protected Date date;
     
-    public Rapport(String nom, Date date){
-        this.nom = nom;
+    //Corps
+    public Rapport(String nom, String type, double taille, String sujet, Date date){
+        super(nom, type, taille);
+        this.sujet = sujet;
         this.date = date;
     }
     
-    public String getNom(){ return nom; }
-    public void setNom(String nom){ this.nom = nom; }
+    //Accesseurs
+    public String getSujet(){ return sujet; }
+    public void setSujet(String sujet){ this.sujet = sujet; }
     public Date getDate(){ return date; }
     public void setDate(Date date){ this.date = date; }
     

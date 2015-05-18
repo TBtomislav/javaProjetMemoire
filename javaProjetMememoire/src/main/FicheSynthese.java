@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
 /**
- *
- * @author Lionel CONTOZ
+ * @author Thomas BERRIAU & Lionel CONTOZ
  */
-public class FicheSynthese {
-    
+public abstract class FicheSynthese extends Document {
+    //Corps
+    public FicheSynthese(String nom, String type, double taille){
+        super(nom, type, taille);
+    }
 }

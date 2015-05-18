@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
 /**
- *
  * @author Thomas BERRIAU & Lionel CONTOZ
  */
 public abstract class Document implements Comparable<Document>{
-    
-    //variables
+    //Variables
     protected String nom;
     protected String type;
     protected double taille;
@@ -23,7 +16,7 @@ public abstract class Document implements Comparable<Document>{
         this.taille = taille;
     }
     
-    //accesseurs
+    //Accesseurs
     public String getNom(){return nom;}
     public void setNom(String nom) {this.nom = nom;}
     public String getType(){return type;}
@@ -37,5 +30,4 @@ public abstract class Document implements Comparable<Document>{
                 "Type: " + type + "\n" + 
                 "Taille: " + taille + "\n";
     }
-    
 }
