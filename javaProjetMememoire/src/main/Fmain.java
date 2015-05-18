@@ -6,6 +6,8 @@
 package main;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,13 +18,13 @@ public class Fmain extends javax.swing.JFrame implements Serializable{
     /**
      * Creates new form Fmain
      */
-    public Fmain(){
+    public Fmain() throws ClassNotFoundException{
         initComponents();
-        System.out.println("coucou");
+        System.out.println("coucou boby");
         Etudiant e=null;
         
         try{
-        File fichier =  new File("BDD/etu.ser") ;
+        File fichier =  new File("BDD/etu.txt") ;
         FileInputStream fis = new FileInputStream(fichier);
         // ouverture d'un flux sur un fichier
         ObjectInputStream ois =  new ObjectInputStream(fis) ;
@@ -108,7 +110,11 @@ public class Fmain extends javax.swing.JFrame implements Serializable{
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Fmain().setVisible(true);
+                try {
+                    new Fmain().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Fmain.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
             }
         });
