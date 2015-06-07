@@ -18,31 +18,10 @@ public class Fmain extends javax.swing.JFrame implements Serializable{
     /**
      * Creates new form Fmain
      */
-    public Fmain() throws ClassNotFoundException{
+    public Fmain(Personne p) throws ClassNotFoundException{
         initComponents();
-        System.out.println("coucou boby");
-        Etudiant e=null;
-        /*
-        try{
-        File fichier =  new File("BDD/etu.txt") ;
-        FileInputStream fis = new FileInputStream(fichier);
-        // ouverture d'un flux sur un fichier
-        ObjectInputStream ois =  new ObjectInputStream(fis) ;
-        // sérialization de l'objet
-            try{
-                e=(Etudiant) ois.readObject();
-            }catch(IOException ioe) {
-                ioe.printStackTrace();
-            } finally {	
-                 System.out.println(e);
-                 ois.close();
-                 System.out.println("Fichier fermé");
-             }
-            
-        }catch(IOException ioe) {
-            ioe.printStackTrace();
-        }
-          */  
+        
+        jLabel2.setText(p.toString());
     }
 
     /**
@@ -55,26 +34,36 @@ public class Fmain extends javax.swing.JFrame implements Serializable{
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Page principale");
+
+        jLabel2.setText("prenom");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addComponent(jLabel1)
-                .addContainerGap(217, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addComponent(jLabel2)))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(109, 109, 109)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel1)
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addGap(80, 80, 80)
+                .addComponent(jLabel2)
+                .addContainerGap(161, Short.MAX_VALUE))
         );
 
         pack();
@@ -110,12 +99,12 @@ public class Fmain extends javax.swing.JFrame implements Serializable{
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
+                /*try {
                     new Fmain().setVisible(true);
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Fmain.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+                */
             }
         });
         
@@ -124,5 +113,6 @@ public class Fmain extends javax.swing.JFrame implements Serializable{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

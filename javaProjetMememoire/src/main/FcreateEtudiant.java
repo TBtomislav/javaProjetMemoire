@@ -8,6 +8,7 @@ package main;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import jxl.*;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -17,12 +18,16 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+
 /**
  *
  * @author berriau
  */
 public class FcreateEtudiant extends javax.swing.JFrame implements Serializable {
 
+    
+    public static Etudiant etu;    
+    
     /**
      * Creates new form createPersonne
      */
@@ -161,62 +166,99 @@ public class FcreateEtudiant extends javax.swing.JFrame implements Serializable 
        String prenom =jTextField2.getText();
        String mail =jTextField3.getText();
        int numE =Integer.parseInt(jTextField4.getText());
+       Number NbEtu;
+       
+       int erreur=0;
        
        
-       Etudiant e=new Etudiant(nom,prenom,mail,numE);
        
-       System.out.println("Bienvenu "+e.getPrenom()+" "+e.getNom());
-       /*
-       try{
-        //serialise
-        File fichier =  new File("BDD/etu.txt") ;
-
-        // ouverture d'un flux sur un fichier
-        ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(fichier)) ;
-
-        // sérialization de l'objet
-       try{
-           oos.writeObject(e) ;
-       } finally {		
-            oos.close();
-            System.out.println("Fichier fermé");
-        }
-       }catch(IOException ioe) {
-	ioe.printStackTrace();
-        }
-       */
        WritableWorkbook workbook = null;
-       Workbook wSourceEtu = null;
+       //Workbook wSourceEtu = null;
        File fSourceEtu=new File("BDD/etu.xls");
 
        
         try {
                 /* On créé un nouveau worbook et on l'ouvre en écriture */
                 
-                wSourceEtu = Workbook.getWorkbook(fSourceEtu);
+                Workbook wSourceEtu = Workbook.getWorkbook(fSourceEtu);
                 
-                System.out.println("Le fichier excel a été chargé /");
-                
-                
-                workbook.copy(wSourceEtu);
+                System.out.println("Le fichier excel a été chargé. ");
                 
                 
+                WritableWorkbook copy = Workbook.createWorkbook(fSourceEtu,wSourceEtu); 
+                System.out.println("Le fichier excel peut être modifié. ");
+
+                /* On récupère la feuille etu et on l'ouvre en écriture */
+                WritableSheet sheet = copy.getSheet("etu"); 
                 
+                /* On récupère les mail et les num étudiant pour avoir l'unicité */
+                Cell tNumE = sheet.findCell(Integer.toString(numE));
+                Cell tMailE =sheet.findCell(mail);
                 
-                /* Creation d'un champ au format numerique */
-                /*Number number = new Number(0, 1, 3.1459);
-                sheet.addCell(number); 
-                */
-                 
+                if (tNumE != null ||tMailE != null){
+                    System.out.println("Mail ou numéro d'étudiant déjà existant.");
+                    //pop up d'erreur
+                    javax.swing.JOptionPane.showMessageDialog(null,"Mail ou numéro d'étudiant déjà existant.","Mail ou numéro d'étudiant déjà existant.",JOptionPane.ERROR_MESSAGE);
+
+                    wSourceEtu.close();  
+                    copy.write();
+                    copy.close();    
+                    
+                    /* on indique l'erreur */
+                    erreur=1;
+                    
+                }
+                else {
+                    
+                    /* on incrémente le nombre d'étudiant */
+                    int nbEtudiant =Integer.parseInt(sheet.getCell(5,0).getContents())+1;
+                    NbEtu = new Number(5, 0, nbEtudiant);
+                    sheet.addCell(NbEtu);
+                    
+                    /* Creatation du x étudiant */ 
+                    Label lNomE = new Label(0, nbEtudiant, nom);
+                    sheet.addCell(lNomE);
+
+                    Label lPrenomE = new Label(1, nbEtudiant, prenom);
+                    sheet.addCell(lPrenomE);
+
+                    Label lMailE = new Label(2, nbEtudiant, mail);
+                    sheet.addCell(lMailE);
+
+                    Number lNumEE = new Number(3, nbEtudiant, numE);
+                    sheet.addCell(lNumEE);
+
+                    wSourceEtu.close();
+                    copy.write();
+                    copy.close();
+
+                    etu=new Etudiant(nom,prenom,mail,numE);
+                    if(etu.getNom() == null ||etu.getPrenom()==null ||etu.getMail()==null){
+                        /* on indique l'erreur */
+                        erreur=1;
+                        System.out.println("Erreur de format dans vos informations");
+                        javax.swing.JOptionPane.showMessageDialog(null,"Problème format","Problème format",JOptionPane.ERROR_MESSAGE);
+
+                    }
+                    else{
+                        System.out.println("Bienvenu "+etu.getPrenom()+" "+etu.getNom());
+                    }
+
+
+                     /* Creation d'un champ au format numerique */
+                     /*Number number = new Number(0, 1, 3.1459);
+                     sheet.addCell(number); 
+                     */
+                }
 
         } 
         catch (IOException exp) {
             System.out.println("Le fichier excel abscent du dossier, création d'un fichier de stockage Etudiant");
            try {
-               workbook = Workbook.createWorkbook(fSourceEtu);
+                workbook = Workbook.createWorkbook(fSourceEtu);
                
                /* On créé une nouvelle feuille (test en position 0) et on l'ouvre en écriture */
-                WritableSheet sheet = workbook.createSheet("test", 0); 
+                WritableSheet sheet = workbook.createSheet("etu", 0); 
 
                 /* Creation de l'en-tête*/
                 Label lNom = new Label(0, 0, "Nom");
@@ -231,8 +273,22 @@ public class FcreateEtudiant extends javax.swing.JFrame implements Serializable 
                 Label lNumE = new Label(3, 0, "NumEtu");
                 sheet.addCell(lNumE);
                
-               /* Creatation du premier étudiant */ 
+                /* on incrémente le nombre d'étudiant */
+                NbEtu = new Number(5, 0, 1);
+                sheet.addCell(NbEtu);
                 
+               /* Creatation du premier étudiant */ 
+                Label lNomE = new Label(0, 1, nom);
+                sheet.addCell(lNomE);
+                
+                Label lPrenomE = new Label(1, 1, prenom);
+                sheet.addCell(lPrenomE);
+                
+                Label lMailE = new Label(2, 1, mail);
+                sheet.addCell(lMailE);
+                
+                Number lNumEE = new Number(3, 1, numE);
+                sheet.addCell(lNumEE);
                 
                 /* On ecrit le classeur */
                 workbook.write();
@@ -245,12 +301,25 @@ public class FcreateEtudiant extends javax.swing.JFrame implements Serializable 
            }
         }  catch (BiffException ex) {
             Logger.getLogger(FcreateEtudiant.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (WriteException ex) {
+            Logger.getLogger(FcreateEtudiant.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally {
                 if(workbook!=null){
                         /* On ferme le worbook pour libérer la mémoire */
                         try {
                                 workbook.close();
+                                etu=new Etudiant(nom,prenom,mail,numE);
+                                if(etu.getNom() == null ||etu.getPrenom()==null ||etu.getMail()==null){
+                                    /* on indique l'erreur */
+                                    erreur=1;
+                                    System.out.println("Erreur de format dans vos informations");
+                                    javax.swing.JOptionPane.showMessageDialog(null,"Problème format","Problème format",JOptionPane.ERROR_MESSAGE);
+
+                                }
+                                else{
+                                    System.out.println("Bienvenu "+etu.getPrenom()+" "+etu.getNom());
+                                }
                         } 
                         catch (WriteException | IOException exp) {
                             System.out.println("Erreur Workbook");
@@ -260,7 +329,12 @@ public class FcreateEtudiant extends javax.swing.JFrame implements Serializable 
         
         this.dispose();
         try {
-            new Fmain().setVisible(true);
+            if(erreur==0){
+                new Fmain(etu).setVisible(true);
+            }
+            else{   
+                new Findex().setVisible(true);
+            }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FcreateEtudiant.class.getName()).log(Level.SEVERE, null, ex);
         }
